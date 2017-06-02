@@ -1,8 +1,9 @@
 {
   "name": "chrome-headless-render-pdf",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "main": "index.js",
   "license": "MIT",
+  "repository": "https://github.com/Szpadel/chrome-headless-render-pdf",
   "bin": {
     "chrome-headless-render-pdf": "cli/chrome-headless-render-pdf.js"
   },
