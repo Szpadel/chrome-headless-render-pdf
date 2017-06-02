@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "chrome-remote-interface": "^0.23.0",
+    "command-exists": "^1.2.2",
     "minimist": "^1.2.0"
   }
 }

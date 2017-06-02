@@ -2,6 +2,7 @@ const CDP = require('chrome-remote-interface');
 const fs = require('fs');
 const cp = require('child_process');
 const net = require('net');
+const commandExists = require('command-exists');
 
 class RenderPDF {
     constructor(options) {
@@ -117,15 +118,44 @@ class RenderPDF {
         }
     }
 
-    spawnChrome() {
-        this.log('Starting chrome');
-        this.chrome = cp.exec(`google-chrome-unstable --headless --remote-debugging-port=${this.port} --disable-gpu`, (err, stdout, stderr) => {
+    async spawnChrome() {
+        const chromeExec = await this.detectChrome();
+        this.log('Using', chromeExec);
+        this.chrome = cp.exec(`${chromeExec} --headless --remote-debugging-port=${this.port} --disable-gpu`, (err, stdout, stderr) => {
             this.browserLog('out', stdout);
             this.browserLog('err', stderr);
         });
         this.chrome.on('exit', () => {
             this.log('Chrome stopped');
         })
+    }
+
+    async isCommandExists(cmd) {
+        return new Promise((resolve, reject) => {
+            commandExists(cmd, (err, exists) => {
+                if(err) {
+                    reject(err);
+                }else {
+                    resolve(exists);
+                }
+            })
+        });
+    }
+
+    async detectChrome() {
+        if(await this.isCommandExists('google-chrome-unstable')) {
+            return 'google-chrome-unstable';
+        }
+        if(await this.isCommandExists('google-chrome-beta')) {
+            return 'google-chrome-beta';
+        }
+        if(await this.isCommandExists('google-chrome')) {
+            return 'google-chrome';
+        }
+        if(await this.isCommandExists('chromium')) {
+            return 'chromium';
+        }
+        throw Error('Couldn\'t detect chrome installed!');
     }
 
     killChrome() {
