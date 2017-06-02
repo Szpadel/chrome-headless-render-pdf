@@ -25,7 +25,7 @@ class RenderPDF {
 
     static async generateSinglePdf(url, filename, options) {
         const renderer = new RenderPDF(options);
-        renderer.spawnChrome();
+        await renderer.spawnChrome();
         await renderer.waitForDebugPort();
         try {
             await renderer.renderPdf(url, filename);
@@ -37,7 +37,7 @@ class RenderPDF {
 
     static async generateMultiplePdf(pairs, options) {
         const renderer = new RenderPDF(options);
-        renderer.spawnChrome();
+        await renderer.spawnChrome();
         await renderer.waitForDebugPort();
         for(const job of pairs) {
             try {
