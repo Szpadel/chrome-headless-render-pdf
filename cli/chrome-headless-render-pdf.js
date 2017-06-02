@@ -10,7 +10,9 @@ const urls = typeof argv['url'] === 'string' ? [argv['url']] : argv['url'];
 const pdfs = typeof argv['pdf'] === 'string'? [argv['pdf']] : argv['pdf'];
 
 if (pdfs.length !== urls.length) {
-    console.error('Unpaired --url or --pdf found');
+    console.error('ERROR: Unpaired --url or --pdf found\n');
+    printHelp();
+    process.exit();
 }
 
 const jobs = generateJobList(urls, pdfs);
