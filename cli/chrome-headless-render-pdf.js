@@ -18,10 +18,14 @@ if (pdfs.length !== urls.length) {
     process.exit();
 }
 
-const jobs = generateJobList(urls, pdfs);
-RenderPDF.generateMultiplePdf(jobs, {
-    printLogs: true
-});
+(async () => {
+    const jobs = generateJobList(urls, pdfs);
+    await RenderPDF.generateMultiplePdf(jobs, {
+        printLogs: true
+    });
+    process.exit();
+})();
+
 
 function generateJobList(urls, pdfs) {
     const jobs = [];
