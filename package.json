@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "bin": {
+    "chrome-headless-render-pdf": "cli/chrome-headless-render-pdf.js"
+  },
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "chrome-remote-interface": "^0.23.0"
+    "chrome-remote-interface": "^0.23.0",
+    "minimist": "^1.2.0"
   }
 }
