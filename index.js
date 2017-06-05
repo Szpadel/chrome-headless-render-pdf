@@ -15,7 +15,8 @@ class RenderPDF {
     setOptions(options) {
         this.options = {
             printLogs: def('printLogs', false),
-            printErrors: def('printErrors', true)
+            printErrors: def('printErrors', true),
+            chromeBinary: def('chromeBinary', null)
         };
 
         function def(key, defaultValue) {
@@ -119,7 +120,7 @@ class RenderPDF {
     }
 
     async spawnChrome() {
-        const chromeExec = await this.detectChrome();
+        const chromeExec = this.options.chromeBinary || await this.detectChrome();
         this.log('Using', chromeExec);
         this.chrome = cp.exec(`${chromeExec} --headless --remote-debugging-port=${this.port} --disable-gpu`, (err, stdout, stderr) => {
             this.browserLog('out', stdout);
@@ -149,13 +150,33 @@ class RenderPDF {
         if(await this.isCommandExists('google-chrome-beta')) {
             return 'google-chrome-beta';
         }
+        if(await this.isCommandExists('google-stable')) {
+            return 'google-stable';
+        }
         if(await this.isCommandExists('google-chrome')) {
             return 'google-chrome';
         }
         if(await this.isCommandExists('chromium')) {
             return 'chromium';
         }
-        throw Error('Couldn\'t detect chrome installed!');
+        // windows
+        if(await this.isCommandExists('chrome')) {
+            return 'chrome';
+        }
+        // macos
+        if(await this.isCommandExists('/Applications/Google\ Chrome Canary.app/Contents/MacOS/Google\ Chrome')) {
+            return '/Applications/Google\ Chrome Canary.app/Contents/MacOS/Google\ Chrome';
+        }
+        if(await this.isCommandExists('/Applications/Google\ Chrome Dev.app/Contents/MacOS/Google\ Chrome')) {
+            return '/Applications/Google\ Chrome Dev.app/Contents/MacOS/Google\ Chrome';
+        }
+        if(await this.isCommandExists('/Applications/Google\ Chrome Beta.app/Contents/MacOS/Google\ Chrome')) {
+            return '/Applications/Google\ Chrome Beta.app/Contents/MacOS/Google\ Chrome';
+        }
+        if(await this.isCommandExists('/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome')) {
+            return '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome';
+        }
+        throw Error('Couldn\'t detect chrome version installed! use --chrome-binary to pass custom location');
     }
 
     killChrome() {

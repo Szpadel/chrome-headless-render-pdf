@@ -18,10 +18,16 @@ if (pdfs.length !== urls.length) {
     process.exit();
 }
 
+let chromeBinary = null;
+if(typeof argv['chrome-binary'] === 'string') {
+    chromeBinary = argv['chrome-binary'];
+}
+
 (async () => {
     const jobs = generateJobList(urls, pdfs);
     await RenderPDF.generateMultiplePdf(jobs, {
-        printLogs: true
+        printLogs: true,
+        chromeBinary
     });
     process.exit();
 })();
@@ -41,9 +47,10 @@ function generateJobList(urls, pdfs) {
 function printHelp() {
     console.log('chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --pdf=OUTPUT-FILE2] ...');
     console.log('  Options:');
-    console.log('    --help         this screen');
-    console.log('    --url          url to load, for local files use: file:///path/to/file');
-    console.log('    --pdf          output for generated file can be relative to current directory');
+    console.log('    --help               this screen');
+    console.log('    --url                url to load, for local files use: file:///path/to/file');
+    console.log('    --pdf                output for generated file can be relative to current directory');
+    console.log('    --chrome-binary      set chrome location (use this options when autodetection fail)');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');
