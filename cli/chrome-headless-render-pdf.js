@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+const updateNotifier = require('update-notifier');
+const pkg = require('../package.json');
+
+updateNotifier({pkg}).notify();
 
 const RenderPDF = require('../index');
 const argv = require('minimist')(process.argv.slice(2));

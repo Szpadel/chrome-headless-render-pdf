@@ -1,13 +1,13 @@
 {
   "name": "chrome-headless-render-pdf",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "license": "MIT",
   "repository": "https://github.com/Szpadel/chrome-headless-render-pdf",
   "engines": {
     "node": ">=7.6.0"
   },
-  "engineStrict" : true,
+  "engineStrict": true,
   "bin": {
     "chrome-headless-render-pdf": "cli/chrome-headless-render-pdf.js"
   },
@@ -17,6 +17,7 @@
   "dependencies": {
     "chrome-remote-interface": "^0.23.0",
     "command-exists": "^1.2.2",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "update-notifier": "^2.1.0"
   }
 }
