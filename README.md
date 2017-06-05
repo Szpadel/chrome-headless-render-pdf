@@ -18,7 +18,7 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
       chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf
 ```
 
-# This tool can be also used pragmatically:
+# This tool can be also used programmatically:
 ```
 const RenderPDF = require('chrome-headless-render-pdf');
 RenderPDF.generateSinglePdf('http://google.com', 'outputPdf.pdf'});
