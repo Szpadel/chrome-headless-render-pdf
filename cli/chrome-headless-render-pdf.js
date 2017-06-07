@@ -28,12 +28,17 @@ if(typeof argv['chrome-binary'] === 'string') {
 }
 
 (async () => {
-    const jobs = generateJobList(urls, pdfs);
-    await RenderPDF.generateMultiplePdf(jobs, {
-        printLogs: true,
-        chromeBinary
-    });
-    process.exit();
+    try {
+        const jobs = generateJobList(urls, pdfs);
+        await RenderPDF.generateMultiplePdf(jobs, {
+            printLogs: true,
+            chromeBinary
+        });
+    }catch(e) {
+        console.error(e);
+    }finally {
+        process.exit();
+    }
 })();
 
 
