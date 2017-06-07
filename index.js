@@ -165,16 +165,16 @@ class RenderPDF {
         }
         // macos
         if(await this.isCommandExists('/Applications/Google\ Chrome Canary.app/Contents/MacOS/Google\ Chrome')) {
-            return '/Applications/Google\ Chrome Canary.app/Contents/MacOS/Google\ Chrome';
+            return '/Applications/Google\\ Chrome Canary.app/Contents/MacOS/Google\\ Chrome';
         }
         if(await this.isCommandExists('/Applications/Google\ Chrome Dev.app/Contents/MacOS/Google\ Chrome')) {
-            return '/Applications/Google\ Chrome Dev.app/Contents/MacOS/Google\ Chrome';
+            return '/Applications/Google\\ Chrome Dev.app/Contents/MacOS/Google\\ Chrome';
         }
         if(await this.isCommandExists('/Applications/Google\ Chrome Beta.app/Contents/MacOS/Google\ Chrome')) {
-            return '/Applications/Google\ Chrome Beta.app/Contents/MacOS/Google\ Chrome';
+            return '/Applications/Google\\ Chrome Beta.app/Contents/MacOS/Google\\ Chrome';
         }
         if(await this.isCommandExists('/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome')) {
-            return '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome';
+            return '/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome';
         }
         throw Error('Couldn\'t detect chrome version installed! use --chrome-binary to pass custom location');
     }
