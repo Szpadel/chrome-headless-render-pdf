@@ -1,23 +1,27 @@
 {
   "name": "chrome-headless-render-pdf",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "main": "index.js",
   "license": "MIT",
   "repository": "https://github.com/Szpadel/chrome-headless-render-pdf",
-  "engines": {
-    "node": ">=7.6.0"
-  },
   "engineStrict": true,
   "bin": {
-    "chrome-headless-render-pdf": "cli/chrome-headless-render-pdf.js"
+    "chrome-headless-render-pdf": "dist/cli/chrome-headless-render-pdf.js"
   },
   "scripts": {
-    "start": "node index.js"
+    "build": "babel index.js cli/chrome-headless-render-pdf.js --presets env --out-dir dist/",
+    "start": "node dist/cli/chrome-headless-render-pdf.js"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "chrome-remote-interface": "^0.23.0",
     "command-exists": "^1.2.2",
     "minimist": "^1.2.0",
     "update-notifier": "^2.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.5.2"
   }
 }

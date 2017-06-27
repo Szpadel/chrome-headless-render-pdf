@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
 const updateNotifier = require('update-notifier');
-const pkg = require('../package.json');
+let pkg;
+try {
+    pkg = require('../package.json');
+}catch(e) {
+    pkg = require('../../package.json');
+}
 
 updateNotifier({pkg}).notify();
 
