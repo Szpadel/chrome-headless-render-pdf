@@ -32,11 +32,29 @@ if(typeof argv['chrome-binary'] === 'string') {
     chromeBinary = argv['chrome-binary'];
 }
 
+let landscape;
+if(argv['landscape']) {
+    landscape = true;
+}
+
+let noMargins;
+if(argv['margins'] !== undefined) {
+    noMargins = !argv['margins'];
+}
+
+let includeBackground;
+if(argv['include-background']) {
+    includeBackground = true;
+}
+
 (async () => {
     try {
         const jobs = generateJobList(urls, pdfs);
         await RenderPDF.generateMultiplePdf(jobs, {
             printLogs: true,
+            landscape,
+            noMargins,
+            includeBackground,
             chromeBinary
         });
     }catch(e) {
@@ -61,10 +79,13 @@ function generateJobList(urls, pdfs) {
 function printHelp() {
     console.log('chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --pdf=OUTPUT-FILE2] ...');
     console.log('  Options:');
-    console.log('    --help               this screen');
-    console.log('    --url                url to load, for local files use: file:///path/to/file');
-    console.log('    --pdf                output for generated file can be relative to current directory');
-    console.log('    --chrome-binary      set chrome location (use this options when autodetection fail)');
+    console.log('    --help                   this screen');
+    console.log('    --url                    url to load, for local files use: file:///path/to/file');
+    console.log('    --pdf                    output for generated file can be relative to current directory');
+    console.log('    --chrome-binary          set chrome location (use this options when autodetection fail)');
+    console.log('    --no-margins             disable default 1cm margins');
+    console.log('    --include-background     include elements background');
+    console.log('    --landscape              generate pdf in landscape orientation');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');

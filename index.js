@@ -16,7 +16,10 @@ class RenderPDF {
         this.options = {
             printLogs: def('printLogs', false),
             printErrors: def('printErrors', true),
-            chromeBinary: def('chromeBinary', null)
+            chromeBinary: def('chromeBinary', null),
+            noMargins: def('noMargins', false),
+            landscape: def('landscape', undefined),
+            includeBackground: def('includeBackground', undefined)
         };
 
         function def(key, defaultValue) {
@@ -29,9 +32,9 @@ class RenderPDF {
         await renderer.spawnChrome();
         await renderer.waitForDebugPort();
         try {
-            await renderer.renderPdf(url, filename);
+            await renderer.renderPdf(url, filename, renderer.generatePdfOptions());
         } catch (e) {
-            this.error('error:', e);
+            renderer.error('error:', e);
         }
         renderer.killChrome();
     }
@@ -42,9 +45,9 @@ class RenderPDF {
         await renderer.waitForDebugPort();
         for(const job of pairs) {
             try {
-                await renderer.renderPdf(job.url, job.pdf);
+                await renderer.renderPdf(job.url, job.pdf, renderer.generatePdfOptions());
             } catch (e) {
-                this.error('error:', e);
+                renderer.error('error:', e);
             }
         }
         renderer.killChrome();
@@ -79,6 +82,26 @@ class RenderPDF {
                 resolve();
             });
         });
+    }
+
+    generatePdfOptions() {
+        const options = {};
+        if(this.options.landscape !== undefined) {
+            options.landscape = !!this.options.landscape;
+        }
+
+        if(this.options.noMargins) {
+            options.marginTop = 0;
+            options.marginBottom = 0;
+            options.marginLeft = 0;
+            options.marginRight = 0;
+        }
+
+        if(this.options.includeBackground !== undefined) {
+            options.printBackground = !!this.options.includeBackground;
+        }
+
+        return options;
     }
 
     error(...msg) {
@@ -218,3 +241,4 @@ class RenderPDF {
 }
 
 module.exports = RenderPDF;
+module.exports.default = RenderPDF;
