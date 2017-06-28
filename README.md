@@ -4,10 +4,13 @@
 ```
 chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --pdf=OUTPUT-FILE2] ...
   Options:
-    --help               this screen
-    --url                url to load, for local files use: file:///path/to/file
-    --pdf                output for generated file can be relative to current directory
-    --chrome-binary      set chrome location (use this options when autodetection fail)
+    --help                   this screen
+    --url                    url to load, for local files use: file:///path/to/file
+    --pdf                    output for generated file can be relative to current directory
+    --chrome-binary          set chrome location (use this options when autodetection fail)
+    --no-margins             disable default 1cm margins
+    --include-background     include elements background
+    --landscape              generate pdf in landscape orientation
 
   Example:
     Render single pdf file
@@ -31,6 +34,13 @@ RenderPDF.generateMultiplePdf([
     {'http://example.com', 'outputPdf2.pdf'}
 ]);
 ```
+
+# you can also use it from typescript or es6
+```
+import RenderPDF from 'chrome-headless-render-pdf';
+RenderPDF.generateSinglePdf('http://google.com', 'outputPdf.pdf'});
+```
+
 # Motivation
 google-chrome currently have option to render pdf files when used with headless option. 
 But this option contains hardcoded adding header and footer to page rendering it unusable for pdf generation.
