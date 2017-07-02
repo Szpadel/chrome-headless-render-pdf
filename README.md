@@ -1,6 +1,6 @@
 # This tool require Google Chrome installed in version min 59 to work!
 
-# Ussage: 
+# Usage: 
 ```
 chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --pdf=OUTPUT-FILE2] ...
   Options:
