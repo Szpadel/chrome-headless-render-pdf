@@ -1,6 +1,6 @@
 {
   "name": "chrome-headless-render-pdf",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "MIT",
@@ -10,12 +10,14 @@
     "chrome-headless-render-pdf": "dist/cli/chrome-headless-render-pdf.js"
   },
   "scripts": {
+    "prepublish": "yarn run build",
     "build": "babel index.js cli/chrome-headless-render-pdf.js --presets env --plugins transform-runtime --out-dir dist/",
     "start": "yarn run build && node dist/cli/chrome-headless-render-pdf.js"
   },
   "dependencies": {
+    "@types/node": "^8.0.15",
     "babel-polyfill": "^6.23.0",
-    "chrome-remote-interface": "^0.23.0",
+    "chrome-remote-interface": "^0.24.2",
     "command-exists": "^1.2.2",
     "minimist": "^1.2.0",
     "update-notifier": "^2.1.0"

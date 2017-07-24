@@ -4,7 +4,8 @@ interface IRenderPdfOptions {
     chromeBinary?: string;
     noMargins?: boolean;
     landscape?: boolean;
-    includeBackground?: boolean;
+    includeBackground?: boolean,
+    extraArguments?: string;
 }
 
 interface IJobPair {
@@ -15,4 +16,5 @@ interface IJobPair {
 export default class RenderPDF {
     static generateSinglePdf(url: string, filename: string, options?: IRenderPdfOptions): Promise<void>;
     static generateMultiplePdf(pairs: IJobPair[], options?: IRenderPdfOptions): Promise<void>;
+    static generatePdfBuffer(url: string, options?: IRenderPdfOptions): Promise<Buffer>;
 }

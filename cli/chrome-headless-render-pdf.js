@@ -47,6 +47,12 @@ if(argv['include-background']) {
     includeBackground = true;
 }
 
+let extraArguments = null;
+if(typeof argv['extra-arguments'] === 'string') {
+    extraArguments = argv['extra-arguments'];
+}
+
+
 (async () => {
     try {
         const jobs = generateJobList(urls, pdfs);
@@ -55,7 +61,8 @@ if(argv['include-background']) {
             landscape,
             noMargins,
             includeBackground,
-            chromeBinary
+            chromeBinary,
+	    extraArguments
         });
     }catch(e) {
         console.error(e);
@@ -86,6 +93,7 @@ function printHelp() {
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
+    console.log('    --extra-arguments        pass arguments specified directly to chrome');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');
@@ -94,4 +102,6 @@ function printHelp() {
     console.log('      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf');
     console.log('    Render multiple pdf files');
     console.log('      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf');
+    console.log('    Render single pdf file with extra arguments passed to chrome');
+    console.log('      chrome-headless-render-pdf --extra-arguments=\'--no-sandbox --incognito\' --url http://google.com --pdf test.pdf');
 }
