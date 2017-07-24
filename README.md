@@ -35,6 +35,14 @@ RenderPDF.generateMultiplePdf([
 ]);
 ```
 
+```
+const RenderPDF = require('chrome-headless-render-pdf');
+RenderPDF.generatePdfBuffer('http://google.com')
+    .then((pdfBuffer) => {
+      console.log(pdfBuffer);
+    });
+```
+
 # you can also use it from typescript or es6
 ```
 import RenderPDF from 'chrome-headless-render-pdf';

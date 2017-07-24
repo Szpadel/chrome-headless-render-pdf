@@ -32,20 +32,37 @@ class RenderPDF {
         await renderer.spawnChrome();
         await renderer.waitForDebugPort();
         try {
-            await renderer.renderPdf(url, filename, renderer.generatePdfOptions());
+            const buff = await renderer.renderPdf(url, renderer.generatePdfOptions());
+            fs.writeFileSync(filename, buff);
+            renderer.log(`Saved ${filename}`);
         } catch (e) {
             renderer.error('error:', e);
         }
         renderer.killChrome();
     }
 
+    static async generatePdfBuffer(url, options) {
+        const renderer = new RenderPDF(options);
+        await renderer.spawnChrome();
+        await renderer.waitForDebugPort();
+        try {
+            return renderer.renderPdf(url, renderer.generatePdfOptions());
+        } catch (e) {
+            renderer.error('error:', e);
+        }finally {
+            renderer.killChrome();
+        }
+    }
+
     static async generateMultiplePdf(pairs, options) {
         const renderer = new RenderPDF(options);
         await renderer.spawnChrome();
         await renderer.waitForDebugPort();
-        for(const job of pairs) {
+        for (const job of pairs) {
             try {
-                await renderer.renderPdf(job.url, job.pdf, renderer.generatePdfOptions());
+                const buff = await renderer.renderPdf(job.url, renderer.generatePdfOptions());
+                fs.writeFileSync(job.pdf, buff);
+                renderer.log(`Saved ${job.pdf}`);
             } catch (e) {
                 renderer.error('error:', e);
             }
@@ -53,7 +70,7 @@ class RenderPDF {
         renderer.killChrome();
     }
 
-    async renderPdf(url, pdfFile, options) {
+    async renderPdf(url, options) {
         return new Promise((resolve) => {
             CDP({port: this.port}, async (client) => {
                 this.log(`Opening ${url}`);
@@ -76,28 +93,27 @@ class RenderPDF {
                 });
 
                 const pdf = await Page.printToPDF(options);
-                fs.writeFileSync(pdfFile, Buffer.from(pdf.data, 'base64'));
-                this.log(`Saved ${pdfFile}`);
+                const buff = Buffer.from(pdf.data, 'base64');
                 client.close();
-                resolve();
+                resolve(buff);
             });
         });
     }
 
     generatePdfOptions() {
         const options = {};
-        if(this.options.landscape !== undefined) {
+        if (this.options.landscape !== undefined) {
             options.landscape = !!this.options.landscape;
         }
 
-        if(this.options.noMargins) {
+        if (this.options.noMargins) {
             options.marginTop = 0;
             options.marginBottom = 0;
             options.marginLeft = 0;
             options.marginRight = 0;
         }
 
-        if(this.options.includeBackground !== undefined) {
+        if (this.options.includeBackground !== undefined) {
             options.printBackground = !!this.options.includeBackground;
         }
 
@@ -157,9 +173,9 @@ class RenderPDF {
     async isCommandExists(cmd) {
         return new Promise((resolve, reject) => {
             commandExists(cmd, (err, exists) => {
-                if(err) {
+                if (err) {
                     reject(err);
-                }else {
+                } else {
                     resolve(exists);
                 }
             })
@@ -167,36 +183,36 @@ class RenderPDF {
     }
 
     async detectChrome() {
-        if(await this.isCommandExists('google-chrome-unstable')) {
+        if (await this.isCommandExists('google-chrome-unstable')) {
             return 'google-chrome-unstable';
         }
-        if(await this.isCommandExists('google-chrome-beta')) {
+        if (await this.isCommandExists('google-chrome-beta')) {
             return 'google-chrome-beta';
         }
-        if(await this.isCommandExists('google-stable')) {
+        if (await this.isCommandExists('google-stable')) {
             return 'google-stable';
         }
-        if(await this.isCommandExists('google-chrome')) {
+        if (await this.isCommandExists('google-chrome')) {
             return 'google-chrome';
         }
-        if(await this.isCommandExists('chromium')) {
+        if (await this.isCommandExists('chromium')) {
             return 'chromium';
         }
         // windows
-        if(await this.isCommandExists('chrome')) {
+        if (await this.isCommandExists('chrome')) {
             return 'chrome';
         }
         // macos
-        if(await this.isCommandExists('/Applications/Google\ Chrome Canary.app/Contents/MacOS/Google\ Chrome')) {
+        if (await this.isCommandExists('/Applications/Google\ Chrome Canary.app/Contents/MacOS/Google\ Chrome')) {
             return '/Applications/Google\\ Chrome Canary.app/Contents/MacOS/Google\\ Chrome';
         }
-        if(await this.isCommandExists('/Applications/Google\ Chrome Dev.app/Contents/MacOS/Google\ Chrome')) {
+        if (await this.isCommandExists('/Applications/Google\ Chrome Dev.app/Contents/MacOS/Google\ Chrome')) {
             return '/Applications/Google\\ Chrome Dev.app/Contents/MacOS/Google\\ Chrome';
         }
-        if(await this.isCommandExists('/Applications/Google\ Chrome Beta.app/Contents/MacOS/Google\ Chrome')) {
+        if (await this.isCommandExists('/Applications/Google\ Chrome Beta.app/Contents/MacOS/Google\ Chrome')) {
             return '/Applications/Google\\ Chrome Beta.app/Contents/MacOS/Google\\ Chrome';
         }
-        if(await this.isCommandExists('/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome')) {
+        if (await this.isCommandExists('/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome')) {
             return '/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome';
         }
         throw Error('Couldn\'t detect chrome version installed! use --chrome-binary to pass custom location');
