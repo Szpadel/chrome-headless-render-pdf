@@ -161,7 +161,7 @@ class RenderPDF {
     async spawnChrome() {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
         this.log('Using', chromeExec);
-        this.chrome = cp.exec(`${chromeExec} --headless --remote-debugging-port=${this.port} --disable-gpu`, (err, stdout, stderr) => {
+        this.chrome = cp.exec(`${chromeExec} --headless --remote-debugging-port=${this.port} --disable-gpu --no-sandbox`, (err, stdout, stderr) => {
             this.browserLog('out', stdout);
             this.browserLog('err', stderr);
         });
