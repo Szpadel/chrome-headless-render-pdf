@@ -19,6 +19,8 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
       chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf
     Render multiple pdf files
       chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf
+    Render single pdf file with extra arguments passed to chrome
+      chrome-headless-render-pdf --extra-arguments='--no-sandbox --incognito' --url http://google.com --pdf test.pdf
 ```
 
 # This tool can be also used programmatically:

@@ -19,7 +19,8 @@ class RenderPDF {
             chromeBinary: def('chromeBinary', null),
             noMargins: def('noMargins', false),
             landscape: def('landscape', undefined),
-            includeBackground: def('includeBackground', undefined)
+            includeBackground: def('includeBackground', undefined),
+            extraArguments: def('extraArguments', '')
         };
 
         function def(key, defaultValue) {
@@ -160,8 +161,9 @@ class RenderPDF {
 
     async spawnChrome() {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
+        const extraArguments = this.options.extraArguments || '';
         this.log('Using', chromeExec);
-        this.chrome = cp.exec(`${chromeExec} --headless --remote-debugging-port=${this.port} --disable-gpu`, (err, stdout, stderr) => {
+        this.chrome = cp.exec(`${chromeExec} --headless --remote-debugging-port=${this.port} --disable-gpu ${extraArguments}`, (err, stdout, stderr) => {
             this.browserLog('out', stdout);
             this.browserLog('err', stderr);
         });
