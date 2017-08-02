@@ -5,7 +5,7 @@ interface IRenderPdfOptions {
     noMargins?: boolean;
     landscape?: boolean;
     includeBackground?: boolean,
-    extraArguments?: string;
+    chromeFlagsFile?: string;
 }
 
 interface IJobPair {
