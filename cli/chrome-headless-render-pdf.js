@@ -4,14 +4,25 @@ const updateNotifier = require('update-notifier');
 let pkg;
 try {
     pkg = require('../package.json');
-}catch(e) {
+} catch (e) {
     pkg = require('../../package.json');
 }
 
 updateNotifier({pkg}).notify();
 
 const RenderPDF = require('../index');
-const argv = require('minimist')(process.argv.slice(2));
+const argv = require('minimist')(process.argv.slice(2), {
+    string: [
+        'url',
+        'pdf',
+        'chrome-binary'
+    ],
+    boolean: [
+        'no-margins',
+        'include-background',
+        'landscape '
+    ]
+});
 
 if (argv['help'] || !argv['pdf'] || !argv['url']) {
     printHelp();
@@ -19,7 +30,7 @@ if (argv['help'] || !argv['pdf'] || !argv['url']) {
 }
 
 const urls = typeof argv['url'] === 'string' ? [argv['url']] : argv['url'];
-const pdfs = typeof argv['pdf'] === 'string'? [argv['pdf']] : argv['pdf'];
+const pdfs = typeof argv['pdf'] === 'string' ? [argv['pdf']] : argv['pdf'];
 
 if (pdfs.length !== urls.length) {
     console.error('ERROR: Unpaired --url or --pdf found\n');
@@ -28,22 +39,22 @@ if (pdfs.length !== urls.length) {
 }
 
 let chromeBinary = null;
-if(typeof argv['chrome-binary'] === 'string') {
+if (typeof argv['chrome-binary'] === 'string') {
     chromeBinary = argv['chrome-binary'];
 }
 
 let landscape;
-if(argv['landscape']) {
+if (argv['landscape']) {
     landscape = true;
 }
 
 let noMargins;
-if(argv['margins'] !== undefined) {
+if (argv['margins'] !== undefined) {
     noMargins = !argv['margins'];
 }
 
 let includeBackground;
-if(argv['include-background']) {
+if (argv['include-background']) {
     includeBackground = true;
 }
 
@@ -64,9 +75,9 @@ if(typeof argv['extra-arguments'] === 'string') {
             chromeBinary,
 	    extraArguments
         });
-    }catch(e) {
+    } catch (e) {
         console.error(e);
-    }finally {
+    } finally {
         process.exit();
     }
 })();
@@ -74,7 +85,7 @@ if(typeof argv['extra-arguments'] === 'string') {
 
 function generateJobList(urls, pdfs) {
     const jobs = [];
-    for(let j =0; j < urls.length; j++) {
+    for (let j = 0; j < urls.length; j++) {
         jobs.push({
             url: urls[j],
             pdf: pdfs[j]

@@ -8,7 +8,6 @@ class RenderPDF {
     constructor(options) {
         this.setOptions(options || {});
         this.chrome = null;
-        this.client = null;
         this.port = Math.floor(Math.random() * 10000 + 1000);
     }
 
@@ -50,7 +49,7 @@ class RenderPDF {
             return renderer.renderPdf(url, renderer.generatePdfOptions());
         } catch (e) {
             renderer.error('error:', e);
-        }finally {
+        } finally {
             renderer.killChrome();
         }
     }
@@ -163,13 +162,15 @@ class RenderPDF {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
         const extraArguments = this.options.extraArguments || '';
         this.log('Using', chromeExec);
-        this.chrome = cp.exec(`${chromeExec} --headless --remote-debugging-port=${this.port} --disable-gpu ${extraArguments}`, (err, stdout, stderr) => {
-            this.browserLog('out', stdout);
-            this.browserLog('err', stderr);
+        this.chrome = cp.spawn(
+            chromeExec,
+            ['--headless', `--remote-debugging-port=${this.port}`, '--disable-gpu', ${extraArguments}]
+        );
+        this.chrome.on('close', (code) => {
+            this.log(`Chrome stopped (${code})`);
+            this.browserLog('out', this.chrome.stdout.toString());
+            this.browserLog('err', this.chrome.stderr.toString());
         });
-        this.chrome.on('exit', () => {
-            this.log('Chrome stopped');
-        })
     }
 
     async isCommandExists(cmd) {
@@ -221,7 +222,7 @@ class RenderPDF {
     }
 
     killChrome() {
-        this.chrome.kill(cp.SIGKILL)
+        this.chrome.kill(cp.SIGKILL);
     }
 
     async waitForDebugPort() {
