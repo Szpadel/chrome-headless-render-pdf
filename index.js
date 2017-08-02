@@ -174,6 +174,7 @@ class RenderPDF {
                 args.push(line);
             });
         }
+        this.log('Args', args);
         this.chrome = cp.spawn(chromeExec, args);
         this.chrome.on('close', (code) => {
             this.log(`Chrome stopped (${code})`);
