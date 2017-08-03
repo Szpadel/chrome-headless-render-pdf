@@ -130,6 +130,6 @@ function printHelp() {
     console.log('      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf');
     console.log('    Render multiple pdf files');
     console.log('      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf');
-    console.log('    Pass line delimited flags from file directly to chrome';
+    console.log('    Pass line delimited flags from file directly to chrome');
     console.log('      chrome-headless-render-pdf --chrome-flags-file chrome.flags --url http://google.com --pdf test.pdf');
 }
