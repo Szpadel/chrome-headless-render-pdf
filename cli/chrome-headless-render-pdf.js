@@ -121,7 +121,7 @@ function printHelp() {
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
-    console.log('    --chrome-flags-file      pass line delimited arguments from file directly to chrome');
+    console.log('    --chrome-flags-file      pass line delimited flags from file directly to chrome');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');
@@ -130,6 +130,6 @@ function printHelp() {
     console.log('      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf');
     console.log('    Render multiple pdf files');
     console.log('      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf');
-    console.log('    Render single pdf file with extra arguments passed to chrome');
+    console.log('    Pass line delimited flags from file directly to chrome';
     console.log('      chrome-headless-render-pdf --chrome-flags-file chrome.flags --url http://google.com --pdf test.pdf');
 }
