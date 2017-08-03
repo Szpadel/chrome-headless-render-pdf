@@ -4,7 +4,7 @@ interface IRenderPdfOptions {
     chromeBinary?: string;
     noMargins?: boolean;
     landscape?: boolean;
-    includeBackground?: boolean,
+    includeBackground?: boolean;
     chromeFlagsFile?: string;
 }
 
