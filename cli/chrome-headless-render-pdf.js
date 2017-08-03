@@ -15,7 +15,8 @@ const argv = require('minimist')(process.argv.slice(2), {
     string: [
         'url',
         'pdf',
-        'chrome-binary'
+        'chrome-binary',
+        'chrome-flags-file'
     ],
     boolean: [
         'no-margins',
