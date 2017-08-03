@@ -7,6 +7,8 @@ try {
 } catch (e) {
     pkg = require('../../package.json');
 }
+const fs = require('fs');
+const os = require('os');
 
 updateNotifier({pkg}).notify();
 
@@ -15,7 +17,8 @@ const argv = require('minimist')(process.argv.slice(2), {
     string: [
         'url',
         'pdf',
-        'chrome-binary'
+        'chrome-binary',
+        'chrome-flags-file'
     ],
     boolean: [
         'no-margins',
@@ -58,23 +61,44 @@ if (argv['include-background']) {
     includeBackground = true;
 }
 
-(async () => {
-    try {
-        const jobs = generateJobList(urls, pdfs);
-        await RenderPDF.generateMultiplePdf(jobs, {
-            printLogs: true,
-            landscape,
-            noMargins,
-            includeBackground,
-            chromeBinary
-        });
-    } catch (e) {
-        console.error(e);
-    } finally {
-        process.exit();
-    }
-})();
+let extraArgs = [];
+if (typeof argv['chrome-flags-file'] === 'string') {
+    var chromeFlagsFile = argv['chrome-flags-file'];
+ 
+    console.log('Flags file', chromeFlagsFile);
 
+    fs.readFile(chromeFlagsFile, 'UTF-8', function (err,data) {
+        console.log(data);
+        data.split(os.EOL).forEach(function(line) {
+            if(line.trim().length > 0) {
+                extraArgs.push(line.trim());
+            }
+        });
+        startJobs();
+    });
+} else {
+    startJobs();
+}
+
+function startJobs() {
+    (async () => {
+        try {
+            const jobs = generateJobList(urls, pdfs);
+            await RenderPDF.generateMultiplePdf(jobs, {
+                printLogs: true,
+                landscape,
+                noMargins,
+                includeBackground,
+                chromeBinary,
+                extraArgs
+            });
+        } catch (e) {
+            console.error(e);
+        } finally {
+            process.exit();
+        }
+    })();
+}
 
 function generateJobList(urls, pdfs) {
     const jobs = [];
@@ -97,6 +121,7 @@ function printHelp() {
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
+    console.log('    --chrome-flags-file      pass line delimited flags from file directly to chrome');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');
@@ -105,4 +130,6 @@ function printHelp() {
     console.log('      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf');
     console.log('    Render multiple pdf files');
     console.log('      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf');
+    console.log('    Pass line delimited flags from file directly to chrome');
+    console.log('      chrome-headless-render-pdf --chrome-flags-file chrome.flags --url http://google.com --pdf test.pdf');
 }
