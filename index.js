@@ -3,7 +3,6 @@ const fs = require('fs');
 const cp = require('child_process');
 const net = require('net');
 const commandExists = require('command-exists');
-const readline = require('readline');
 
 class RenderPDF {
     constructor(options) {
@@ -20,7 +19,7 @@ class RenderPDF {
             noMargins: def('noMargins', false),
             landscape: def('landscape', undefined),
             includeBackground: def('includeBackground', undefined),
-            chromeFlagsFile: def('chromeFlagsFile', null)
+            extraArgs: def('extraArgs', null)
         };
 
         function def(key, defaultValue) {
@@ -162,18 +161,7 @@ class RenderPDF {
     async spawnChrome() {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
         this.log('Using', chromeExec);
-        var args = ['--headless', `--remote-debugging-port=${this.port}`, '--disable-gpu'];
-        if(this.options.chromeFlagsFile != null) {
-            //Open Chrome flags file
-            const rl = readline.createInterface({
-                input: fs.createReadStream(this.options.chromeFlagsFile)
-            });
-
-            //Append each line to Chrome args
-            rl.on('line', function (line) {
-                args.push(line);
-            });
-        }
+        var args = (['--headless', `--remote-debugging-port=${this.port}`, '--disable-gpu']).concat(this.options.extraArgs);
         this.log('Args', args);
         this.chrome = cp.spawn(chromeExec, args);
         this.chrome.on('close', (code) => {

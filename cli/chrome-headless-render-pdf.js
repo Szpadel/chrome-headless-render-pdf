@@ -7,6 +7,8 @@ try {
 } catch (e) {
     pkg = require('../../package.json');
 }
+const fs = require('fs');
+const os = require('os');
 
 updateNotifier({pkg}).notify();
 
@@ -59,30 +61,44 @@ if (argv['include-background']) {
     includeBackground = true;
 }
 
-let chromeFlagsFile = null;
-if(typeof argv['chrome-flags-file'] === 'string') {
-    extraArguments = argv['chrome-flags-file'];
+let extraArgs = [];
+if (typeof argv['chrome-flags-file'] === 'string') {
+    var chromeFlagsFile = argv['chrome-flags-file'];
+ 
+    console.log('Flags file', chromeFlagsFile);
+
+    fs.readFile(chromeFlagsFile, 'UTF-8', function (err,data) {
+        console.log(data);
+        data.split(os.EOL).forEach(function(line) {
+            if(line.trim().length > 0) {
+                extraArgs.push(line.trim());
+            }
+        });
+        startJobs();
+    });
+} else {
+    startJobs();
 }
 
-
-(async () => {
-    try {
-        const jobs = generateJobList(urls, pdfs);
-        await RenderPDF.generateMultiplePdf(jobs, {
-            printLogs: true,
-            landscape,
-            noMargins,
-            includeBackground,
-            chromeBinary,
-            chromeFlagsFile
-        });
-    } catch (e) {
-        console.error(e);
-    } finally {
-        process.exit();
-    }
-})();
-
+function startJobs() {
+    (async () => {
+        try {
+            const jobs = generateJobList(urls, pdfs);
+            await RenderPDF.generateMultiplePdf(jobs, {
+                printLogs: true,
+                landscape,
+                noMargins,
+                includeBackground,
+                chromeBinary,
+                extraArgs
+            });
+        } catch (e) {
+            console.error(e);
+        } finally {
+            process.exit();
+        }
+    })();
+}
 
 function generateJobList(urls, pdfs) {
     const jobs = [];
