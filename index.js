@@ -21,6 +21,10 @@ class RenderPDF {
             includeBackground: def('includeBackground', undefined)
         };
 
+        this.commandLineOptions = {
+            windowSize: def('windowSize', undefined),
+        };
+
         function def(key, defaultValue) {
             return options[key] === undefined ? defaultValue : options[key];
         }
@@ -160,9 +164,19 @@ class RenderPDF {
     async spawnChrome() {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
         this.log('Using', chromeExec);
+        const commandLineOptions = [
+             '--headless', 
+             `--remote-debugging-port=${this.port}`, 
+             '--disable-gpu'
+            ];
+
+        if (this.commandLineOptions.windowSize !== undefined ) {
+          commandLineOptions.push(`--window-size=${this.commandLineOptions.windowSize[0]},${this.commandLineOptions.windowSize[1]}`);
+
+        }
         this.chrome = cp.spawn(
             chromeExec,
-            ['--headless', `--remote-debugging-port=${this.port}`, '--disable-gpu']
+            commandLineOptions
         );
         this.chrome.on('close', (code) => {
             this.log(`Chrome stopped (${code})`);
