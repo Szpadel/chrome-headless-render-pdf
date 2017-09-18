@@ -15,7 +15,8 @@ const argv = require('minimist')(process.argv.slice(2), {
     string: [
         'url',
         'pdf',
-        'chrome-binary'
+        'chrome-binary',
+        'window-size'
     ],
     boolean: [
         'no-margins',
@@ -31,6 +32,7 @@ if (argv['help'] || !argv['pdf'] || !argv['url']) {
 
 const urls = typeof argv['url'] === 'string' ? [argv['url']] : argv['url'];
 const pdfs = typeof argv['pdf'] === 'string' ? [argv['pdf']] : argv['pdf'];
+const windowSize = typeof argv['window-size'] === 'string' ? argv['window-size'].split(',') : argv['window-size'];
 
 if (pdfs.length !== urls.length) {
     console.error('ERROR: Unpaired --url or --pdf found\n');
@@ -66,7 +68,8 @@ if (argv['include-background']) {
             landscape,
             noMargins,
             includeBackground,
-            chromeBinary
+            chromeBinary,
+            windowSize
         });
     } catch (e) {
         console.error(e);
