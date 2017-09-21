@@ -107,6 +107,7 @@ function printHelp() {
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
+    console.log('    --window-size            specify window size (e.g. --window-size 1600,1200)');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');
