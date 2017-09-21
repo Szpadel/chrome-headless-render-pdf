@@ -32,6 +32,13 @@ if (argv['help'] || !argv['pdf'] || !argv['url']) {
 
 const urls = typeof argv['url'] === 'string' ? [argv['url']] : argv['url'];
 const pdfs = typeof argv['pdf'] === 'string' ? [argv['pdf']] : argv['pdf'];
+
+if (typeof argv['window-size'] === 'string' && argv['window-size'].indexOf(',') < 0) {
+    console.error('ERROR: Missing comma in --window-size\n');
+    printHelp();
+    process.exit();
+}
+
 const windowSize = typeof argv['window-size'] === 'string' ? argv['window-size'].split(',') : argv['window-size'];
 
 if (pdfs.length !== urls.length) {
