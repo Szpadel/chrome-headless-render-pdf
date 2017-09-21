@@ -33,13 +33,17 @@ if (argv['help'] || !argv['pdf'] || !argv['url']) {
 const urls = typeof argv['url'] === 'string' ? [argv['url']] : argv['url'];
 const pdfs = typeof argv['pdf'] === 'string' ? [argv['pdf']] : argv['pdf'];
 
-if (typeof argv['window-size'] === 'string' && argv['window-size'].indexOf(',') < 0) {
-    console.error('ERROR: Missing comma in --window-size\n');
-    printHelp();
-    process.exit();
+let windowSize;
+if (typeof argv['window-size'] === 'string') {
+    windowSize = argv['window-size'].match(/^([0-9]+)[,x*]([0-9]+)$/);
+    if (windowSize === null) {
+      console.error('ERROR: Missing or bad input for --window-size \n');
+      printHelp();
+      process.exit();
+    }
+    windowSize = windowSize.splice(1,3);
 }
 
-const windowSize = typeof argv['window-size'] === 'string' ? argv['window-size'].split(',') : argv['window-size'];
 
 if (pdfs.length !== urls.length) {
     console.error('ERROR: Unpaired --url or --pdf found\n');
@@ -107,7 +111,7 @@ function printHelp() {
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
-    console.log('    --window-size            specify window size (e.g. --window-size 1600,1200)');
+    console.log('    --window-size            specify window size, width(,x*)height (e.g. --window-size 1600,1200 or --window-size 1600x1200)');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');
