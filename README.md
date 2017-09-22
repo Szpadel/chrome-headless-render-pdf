@@ -11,6 +11,7 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --no-margins             disable default 1cm margins
     --include-background     include elements background
     --landscape              generate pdf in landscape orientation
+    --window-size            specify window size, width(,x*)height (e.g. --window-size 1600,1200 or --window-size 1600x1200)
 
   Example:
     Render single pdf file

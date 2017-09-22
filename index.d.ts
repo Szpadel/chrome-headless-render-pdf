@@ -5,6 +5,7 @@ interface IRenderPdfOptions {
     noMargins?: boolean;
     landscape?: boolean;
     includeBackground?: boolean;
+    windowSize?: boolean;
 }
 
 interface IJobPair {
