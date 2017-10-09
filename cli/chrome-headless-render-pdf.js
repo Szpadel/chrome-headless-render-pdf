@@ -27,7 +27,7 @@ const argv = require('minimist')(process.argv.slice(2), {
 
 if (argv['help'] || !argv['pdf'] || !argv['url']) {
     printHelp();
-    process.exit();
+    process.exit(2);
 }
 
 const urls = typeof argv['url'] === 'string' ? [argv['url']] : argv['url'];
@@ -39,7 +39,7 @@ if (typeof argv['window-size'] === 'string') {
     if (windowSize === null) {
       console.error('ERROR: Missing or bad input for --window-size \n');
       printHelp();
-      process.exit();
+      process.exit(1);
     }
     windowSize = windowSize.splice(1,3);
 }
@@ -48,7 +48,7 @@ if (typeof argv['window-size'] === 'string') {
 if (pdfs.length !== urls.length) {
     console.error('ERROR: Unpaired --url or --pdf found\n');
     printHelp();
-    process.exit();
+    process.exit(1);
 }
 
 let chromeBinary = null;
@@ -84,9 +84,9 @@ if (argv['include-background']) {
         });
     } catch (e) {
         console.error(e);
-    } finally {
-        process.exit();
+        process.exit(1);
     }
+    process.exit();
 })();
 
 
