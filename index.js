@@ -23,6 +23,7 @@ class RenderPDF {
 
         this.commandLineOptions = {
             windowSize: def('windowSize', undefined),
+            extraOptions: def('extraCliOptions', undefined)
         };
 
         function def(key, defaultValue) {
@@ -172,8 +173,12 @@ class RenderPDF {
 
         if (this.commandLineOptions.windowSize !== undefined ) {
           commandLineOptions.push(`--window-size=${this.commandLineOptions.windowSize[0]},${this.commandLineOptions.windowSize[1]}`);
-
         }
+
+        if (this.commandLineOptions.extraOptions !== undefined) {
+          commandLineOptions.push.apply(commandLineOptions, this.commandLineOptions.extraOptions);
+        }
+
         this.chrome = cp.spawn(
             chromeExec,
             commandLineOptions
