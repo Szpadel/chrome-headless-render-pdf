@@ -12,6 +12,7 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --include-background     include elements background
     --landscape              generate pdf in landscape orientation
     --window-size            specify window size, width(,x*)height (e.g. --window-size 1600,1200 or --window-size 1600x1200)
+    --extra-cli-options      extra command line options to be passed directly to the chrome binary on the command line (ex. --extra-cli-options="--ignore-certificate-errors --hide-scrollbars"
 
   Example:
     Render single pdf file

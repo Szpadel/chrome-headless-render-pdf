@@ -16,7 +16,8 @@ const argv = require('minimist')(process.argv.slice(2), {
         'url',
         'pdf',
         'chrome-binary',
-        'window-size'
+        'window-size',
+        'extra-cli-options'
     ],
     boolean: [
         'no-margins',
@@ -71,6 +72,12 @@ if (argv['include-background']) {
     includeBackground = true;
 }
 
+let extraCliOptions;
+if (typeof argv['extra-cli-options'] === 'string') {
+    console.log(argv['extra-cli-options'])
+    extraCliOptions = require('string-argv')(argv['extra-cli-options']);
+}
+
 (async () => {
     try {
         const jobs = generateJobList(urls, pdfs);
@@ -80,7 +87,8 @@ if (argv['include-background']) {
             noMargins,
             includeBackground,
             chromeBinary,
-            windowSize
+            windowSize,
+            extraCliOptions,
         });
     } catch (e) {
         console.error(e);
@@ -112,6 +120,7 @@ function printHelp() {
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
     console.log('    --window-size            specify window size, width(,x*)height (e.g. --window-size 1600,1200 or --window-size 1600x1200)');
+    console.log('.   --extra-cli-options      extra command line options to be passed directly to the chrome binary on the command line (ex. --extra-cli-options="--ignore-certificate-errors --hide-scrollbars"')
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');

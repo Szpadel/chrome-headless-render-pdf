@@ -20,7 +20,8 @@
     "chrome-remote-interface": "^0.24.2",
     "command-exists": "^1.2.2",
     "minimist": "^1.2.0",
-    "update-notifier": "^2.1.0"
+    "update-notifier": "^2.1.0",
+    "string-argv": "^0.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
