@@ -16,7 +16,9 @@ const argv = require('minimist')(process.argv.slice(2), {
         'url',
         'pdf',
         'chrome-binary',
-        'window-size'
+        'window-size',
+        'paper-width',
+        'paper-height',
     ],
     boolean: [
         'no-margins',
@@ -56,6 +58,16 @@ if (typeof argv['chrome-binary'] === 'string') {
     chromeBinary = argv['chrome-binary'];
 }
 
+let paperWidth = undefined;
+if (typeof argv['paper-width'] === 'string') {
+    paperWidth = argv['paper-width'];
+}
+
+let paperHeight = undefined;
+if (typeof argv['paper-height'] === 'string') {
+    paperHeight = argv['paper-height'];
+}
+
 let landscape;
 if (argv['landscape']) {
     landscape = true;
@@ -80,7 +92,9 @@ if (argv['include-background']) {
             noMargins,
             includeBackground,
             chromeBinary,
-            windowSize
+            windowSize,
+            paperWidth,
+            paperHeight
         });
     } catch (e) {
         console.error(e);
@@ -112,6 +126,8 @@ function printHelp() {
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
     console.log('    --window-size            specify window size, width(,x*)height (e.g. --window-size 1600,1200 or --window-size 1600x1200)');
+    console.log('    --paper-width            specify page width in inches (defaults to 8.5 inches)');
+    console.log('    --paper-height           specify page height in inches (defaults to 11 inches)');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');

@@ -18,6 +18,8 @@ class RenderPDF {
             chromeBinary: def('chromeBinary', null),
             noMargins: def('noMargins', false),
             landscape: def('landscape', undefined),
+            paperWidth: def('paperWidth', undefined),
+            paperHeight: def('paperHeight', undefined),
             includeBackground: def('includeBackground', undefined)
         };
 
@@ -120,6 +122,13 @@ class RenderPDF {
             options.printBackground = !!this.options.includeBackground;
         }
 
+        if(this.options.paperWidth !== undefined) {
+            options.paperWidth = parseFloat(this.options.paperWidth);
+        }
+
+        if(this.options.paperHeight !== undefined) {
+            options.paperHeight = parseFloat(this.options.paperHeight);
+        }
         return options;
     }
 
