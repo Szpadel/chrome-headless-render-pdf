@@ -79,9 +79,9 @@ class RenderPDF {
         return new Promise((resolve) => {
             CDP({port: this.port}, async (client) => {
                 this.log(`Opening ${url}`);
-                const {Page, Emulation, Animation} = client;
+                const {Page, Emulation, LayerTree} = client;
                 await Page.enable();
-                await Animation.enable();
+                await LayerTree.enable();
 
                 await Page.navigate({url});
                 await Emulation.setVirtualTimePolicy({policy: 'pauseIfNetworkFetchesPending', budget: 5000});
@@ -96,6 +96,18 @@ class RenderPDF {
                 await this.profileScope('Wait for js execution', async () => {
                     await jsDone;
                 });
+
+                await this.profileScope('Wait for animations', async () => {
+                    await new Promise((resolve) => {
+                        setTimeout(resolve, 5000); // max waiting time
+                        let timeout = setTimeout(resolve, 100);
+                        LayerTree.layerPainted(() => {
+                            clearTimeout(timeout);
+                            timeout = setTimeout(resolve, 100);
+                        });
+                    });
+                });
+
 
                 const pdf = await Page.printToPDF(options);
                 const buff = Buffer.from(pdf.data, 'base64');
