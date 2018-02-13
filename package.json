@@ -1,6 +1,6 @@
 {
   "name": "chrome-headless-render-pdf",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "MIT",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@types/node": "^8.0.15",
     "babel-polyfill": "^6.23.0",
-    "chrome-remote-interface": "^0.24.2",
+    "chrome-remote-interface": "^0.25.5",
     "command-exists": "^1.2.2",
     "minimist": "^1.2.0",
     "update-notifier": "^2.1.0"

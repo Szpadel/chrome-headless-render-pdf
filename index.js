@@ -264,11 +264,29 @@ class RenderPDF {
             try {
                 await this.isPortOpen('localhost', this.port);
                 this.log('Connected!');
+                await this.checkChromeVersion();
                 return;
             } catch (e) {
                 await this.wait(10);
             }
         }
+    }
+
+    async checkChromeVersion() {
+        return new Promise((resolve) => {
+            CDP({port: this.port}, async (client) => {
+                const {Browser} = client;
+                const version = await Browser.getVersion();
+                if(version.product.search('/64.') !== -1) {
+                    console.error('     ===== WARNING =====');
+                    console.error('  Detected Chrome in version 64.x');
+                    console.error('  This version is known to contain bug in remote api that prevents this tool to work');
+                    console.error('  This issue is resolved in version 65');
+                    console.error('  More info: https://github.com/Szpadel/chrome-headless-render-pdf/issues/22');
+                }
+                resolve();
+            });
+        });
     }
 
     async isPortOpen(host, port) {
