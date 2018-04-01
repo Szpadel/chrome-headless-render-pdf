@@ -16,6 +16,7 @@ class RenderPDF {
             printLogs: def('printLogs', false),
             printErrors: def('printErrors', true),
             chromeBinary: def('chromeBinary', null),
+            chromeOptions: def('chromeOptions', []),
             noMargins: def('noMargins', false),
             landscape: def('landscape', undefined),
             paperWidth: def('paperWidth', undefined),
@@ -189,7 +190,7 @@ class RenderPDF {
              '--headless', 
              `--remote-debugging-port=${this.port}`, 
              '--disable-gpu'
-            ];
+            ].concat(this.options.chromeOptions);
 
         if (this.commandLineOptions.windowSize !== undefined ) {
           commandLineOptions.push(`--window-size=${this.commandLineOptions.windowSize[0]},${this.commandLineOptions.windowSize[1]}`);

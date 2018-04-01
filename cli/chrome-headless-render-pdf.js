@@ -58,6 +58,13 @@ if (typeof argv['chrome-binary'] === 'string') {
     chromeBinary = argv['chrome-binary'];
 }
 
+let chromeOptions = [];
+for (let i = 0; i < process.argv.length; i++) {
+  if (process.argv[i] === '--chrome-option' && typeof process.argv[i + 1] === 'string') {
+    chromeOptions.push(process.argv[++i]);
+  }
+}
+
 let paperWidth = undefined;
 if (typeof argv['paper-width'] === 'string') {
     paperWidth = argv['paper-width'];
@@ -92,6 +99,7 @@ if (argv['include-background']) {
             noMargins,
             includeBackground,
             chromeBinary,
+            chromeOptions,
             windowSize,
             paperWidth,
             paperHeight
@@ -122,6 +130,7 @@ function printHelp() {
     console.log('    --url                    url to load, for local files use: file:///path/to/file');
     console.log('    --pdf                    output for generated file can be relative to current directory');
     console.log('    --chrome-binary          set chrome location (use this options when autodetection fail)');
+    console.log('    --chrome-option          set chrome option');
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
