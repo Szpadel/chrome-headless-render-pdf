@@ -187,8 +187,8 @@ class RenderPDF {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
         this.log('Using', chromeExec);
         const commandLineOptions = [
-             '--headless', 
-             `--remote-debugging-port=${this.port}`, 
+             '--headless',
+             `--remote-debugging-port=${this.port}`,
              '--disable-gpu'
             ].concat(this.options.chromeOptions);
 
