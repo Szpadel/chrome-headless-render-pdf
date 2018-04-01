@@ -1,5 +1,5 @@
 {
-  "name": "chrome-headless-render-pdf",
+  "name": "@dudeofawesome/chrome-headless-render-pdf",
   "version": "1.5.1",
   "main": "index.js",
   "types": "index.d.ts",
