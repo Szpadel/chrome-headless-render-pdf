@@ -189,8 +189,9 @@ class RenderPDF {
         const commandLineOptions = [
              '--headless',
              `--remote-debugging-port=${this.port}`,
-             '--disable-gpu'
-            ].concat(this.options.chromeOptions);
+             '--disable-gpu',
+             ...this.options.chromeOptions
+            ];
 
         if (this.commandLineOptions.windowSize !== undefined ) {
           commandLineOptions.push(`--window-size=${this.commandLineOptions.windowSize[0]},${this.commandLineOptions.windowSize[1]}`);
