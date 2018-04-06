@@ -186,7 +186,18 @@ class RenderPDF {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
         this.log('Using', chromeExec);
         const commandLineOptions = [
-             '--headless', 
+		     '--headless', 
+             '--interpreter-none', 
+             '--disable-translate', 
+             '--disable-extensions', 
+             '--safebrowsing-disable-auto-update', 
+             '--metrics-recording-only', 
+             '--disable-default-apps', 
+             '--no-first-run', 
+             '--mute-audio', 
+             '--hide-scrollbars', 
+             '--disable-plugins', 
+             '--disable-sync', 
              `--remote-debugging-port=${this.port}`, 
              '--disable-gpu'
             ];
