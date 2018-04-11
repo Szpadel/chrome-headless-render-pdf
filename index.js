@@ -16,6 +16,7 @@ class RenderPDF {
             printLogs: def('printLogs', false),
             printErrors: def('printErrors', true),
             chromeBinary: def('chromeBinary', null),
+            chromeOptions: def('chromeOptions', []),
             noMargins: def('noMargins', false),
             landscape: def('landscape', undefined),
             paperWidth: def('paperWidth', undefined),
@@ -186,9 +187,10 @@ class RenderPDF {
         const chromeExec = this.options.chromeBinary || await this.detectChrome();
         this.log('Using', chromeExec);
         const commandLineOptions = [
-             '--headless', 
-             `--remote-debugging-port=${this.port}`, 
-             '--disable-gpu'
+             '--headless',
+             `--remote-debugging-port=${this.port}`,
+             '--disable-gpu',
+             ...this.options.chromeOptions
             ];
 
         if (this.commandLineOptions.windowSize !== undefined ) {

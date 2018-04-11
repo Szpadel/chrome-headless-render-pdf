@@ -8,6 +8,7 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --url                    url to load, for local files use: file:///path/to/file
     --pdf                    output for generated file can be relative to current directory
     --chrome-binary          set chrome location (use this options when autodetection fail)
+    --chrome-option          set chrome option, options with leading dashes should use --chrome-option=value format
     --no-margins             disable default 1cm margins
     --include-background     include elements background
     --landscape              generate pdf in landscape orientation

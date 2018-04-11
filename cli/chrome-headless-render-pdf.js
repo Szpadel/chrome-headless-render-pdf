@@ -16,6 +16,7 @@ const argv = require('minimist')(process.argv.slice(2), {
         'url',
         'pdf',
         'chrome-binary',
+        'chrome-option',
         'window-size',
         'paper-width',
         'paper-height',
@@ -58,6 +59,13 @@ if (typeof argv['chrome-binary'] === 'string') {
     chromeBinary = argv['chrome-binary'];
 }
 
+let chromeOptions = null;
+if (Array.isArray(argv['chrome-option'])) {
+  chromeOptions = argv['chrome-option'];
+} else if (typeof argv['chrome-option']) {
+  chromeOptions = [argv['chrome-option']];
+}
+
 let paperWidth = undefined;
 if (typeof argv['paper-width'] === 'string') {
     paperWidth = argv['paper-width'];
@@ -92,6 +100,7 @@ if (argv['include-background']) {
             noMargins,
             includeBackground,
             chromeBinary,
+            chromeOptions,
             windowSize,
             paperWidth,
             paperHeight
@@ -122,6 +131,7 @@ function printHelp() {
     console.log('    --url                    url to load, for local files use: file:///path/to/file');
     console.log('    --pdf                    output for generated file can be relative to current directory');
     console.log('    --chrome-binary          set chrome location (use this options when autodetection fail)');
+    console.log('    --chrome-option          set chrome option, options with leading dashes should use --chrome-option=value format');
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
