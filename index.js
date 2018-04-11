@@ -290,15 +290,15 @@ class RenderPDF {
                     const {Browser} = client;
                     const version = await Browser.getVersion();
                     if(version.product.search('/64.') !== -1) {
-                        console.error('     ===== WARNING =====');
-                        console.error('  Detected Chrome in version 64.x');
-                        console.error('  This version is known to contain bug in remote api that prevents this tool to work');
-                        console.error('  This issue is resolved in version 65');
-                        console.error('  More info: https://github.com/Szpadel/chrome-headless-render-pdf/issues/22');
+                        this.error('     ===== WARNING =====');
+                        this.error('  Detected Chrome in version 64.x');
+                        this.error('  This version is known to contain bug in remote api that prevents this tool to work');
+                        this.error('  This issue is resolved in version 65');
+                        this.error('  More info: https://github.com/Szpadel/chrome-headless-render-pdf/issues/22');
                     }
-                    console.log(`Connected to ${version.product}, protocol ${version.protocolVersion}`);
+                    this.log(`Connected to ${version.product}, protocol ${version.protocolVersion}`);
                 }catch (e) {
-                    console.warn(`Wasn't able to check chrome version, skipping compatibility check.`);
+                    this.error(`Wasn't able to check chrome version, skipping compatibility check.`);
                 }
                 resolve();
             });
