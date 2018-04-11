@@ -1,4 +1,5 @@
-# This tool require Google Chrome installed in version min 59 to work!
+This tool require Google Chrome installed in version >59 to work, 
+but latest version is recommended.
 
 # Usage: 
 ```
@@ -8,13 +9,14 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --url                    url to load, for local files use: file:///path/to/file
     --pdf                    output for generated file can be relative to current directory
     --chrome-binary          set chrome location (use this options when autodetection fail)
-    --chrome-option          set chrome option, options with leading dashes should use --chrome-option=value format
+    --chrome-option          set chrome option, can be used multiple times, e.g. --chrome-option=--no-sandbox
     --no-margins             disable default 1cm margins
     --include-background     include elements background
     --landscape              generate pdf in landscape orientation
     --window-size            specify window size, width(,x*)height (e.g. --window-size 1600,1200 or --window-size 1600x1200)
     --paper-width            specify page width in inches (defaults to 8.5 inches)
     --paper-height           specify page height in inches (defaults to 11 inches)
+    --page-ranges            specify pages to render default all pages,  e.g. 1-5, 8, 11-13
 
   Example:
     Render single pdf file
