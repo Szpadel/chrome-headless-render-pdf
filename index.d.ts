@@ -2,13 +2,14 @@ interface IRenderPdfOptions {
     printLogs?: boolean;
     printErrors?: boolean;
     chromeBinary?: string;
-    chromeOptions: string[],
+    chromeOptions?: string[],
     noMargins?: boolean;
     landscape?: boolean;
     includeBackground?: boolean;
     windowSize?: boolean;
     paperWidth?: string;
     paperHeight?: string;
+    pageRanges?: string;
 }
 
 interface IJobPair {

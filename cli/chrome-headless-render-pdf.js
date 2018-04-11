@@ -20,6 +20,7 @@ const argv = require('minimist')(process.argv.slice(2), {
         'window-size',
         'paper-width',
         'paper-height',
+        'page-ranges'
     ],
     boolean: [
         'no-margins',
@@ -59,10 +60,10 @@ if (typeof argv['chrome-binary'] === 'string') {
     chromeBinary = argv['chrome-binary'];
 }
 
-let chromeOptions = null;
+let chromeOptions = undefined;
 if (Array.isArray(argv['chrome-option'])) {
   chromeOptions = argv['chrome-option'];
-} else if (typeof argv['chrome-option']) {
+} else if (typeof argv['chrome-option'] === 'string') {
   chromeOptions = [argv['chrome-option']];
 }
 
@@ -91,6 +92,11 @@ if (argv['include-background']) {
     includeBackground = true;
 }
 
+let pageRanges;
+if(typeof argv['page-ranges'] === 'string') {
+    pageRanges = argv['page-ranges'];
+}
+
 (async () => {
     try {
         const jobs = generateJobList(urls, pdfs);
@@ -103,7 +109,8 @@ if (argv['include-background']) {
             chromeOptions,
             windowSize,
             paperWidth,
-            paperHeight
+            paperHeight,
+            pageRanges,
         });
     } catch (e) {
         console.error(e);
@@ -131,13 +138,14 @@ function printHelp() {
     console.log('    --url                    url to load, for local files use: file:///path/to/file');
     console.log('    --pdf                    output for generated file can be relative to current directory');
     console.log('    --chrome-binary          set chrome location (use this options when autodetection fail)');
-    console.log('    --chrome-option          set chrome option, options with leading dashes should use --chrome-option=value format');
+    console.log('    --chrome-option          set chrome option, can be used multiple times, e.g. --chrome-option=--no-sandbox');
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
     console.log('    --window-size            specify window size, width(,x*)height (e.g. --window-size 1600,1200 or --window-size 1600x1200)');
     console.log('    --paper-width            specify page width in inches (defaults to 8.5 inches)');
     console.log('    --paper-height           specify page height in inches (defaults to 11 inches)');
+    console.log('    --page-ranges            specify pages to render default all pages,  e.g. 1-5, 8, 11-13');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');

@@ -21,7 +21,8 @@ class RenderPDF {
             landscape: def('landscape', undefined),
             paperWidth: def('paperWidth', undefined),
             paperHeight: def('paperHeight', undefined),
-            includeBackground: def('includeBackground', undefined)
+            includeBackground: def('includeBackground', undefined),
+            pageRanges: def('pageRanges', undefined),
         };
 
         this.commandLineOptions = {
@@ -77,8 +78,9 @@ class RenderPDF {
     }
 
     async renderPdf(url, options) {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             CDP({port: this.port}, async (client) => {
+                try{
                 this.log(`Opening ${url}`);
                 const {Page, Emulation, LayerTree} = client;
                 await Page.enable();
@@ -109,11 +111,13 @@ class RenderPDF {
                     });
                 });
 
-
                 const pdf = await Page.printToPDF(options);
                 const buff = Buffer.from(pdf.data, 'base64');
                 client.close();
                 resolve(buff);
+                }catch (e) {
+                    reject(e.message)
+                }
             });
         });
     }
@@ -142,6 +146,11 @@ class RenderPDF {
         if(this.options.paperHeight !== undefined) {
             options.paperHeight = parseFloat(this.options.paperHeight);
         }
+
+        if(this.options.pageRanges !== undefined) {
+            options.pageRanges = this.options.pageRanges;
+        }
+
         return options;
     }
 
@@ -277,14 +286,19 @@ class RenderPDF {
     async checkChromeVersion() {
         return new Promise((resolve) => {
             CDP({port: this.port}, async (client) => {
-                const {Browser} = client;
-                const version = await Browser.getVersion();
-                if(version.product.search('/64.') !== -1) {
-                    console.error('     ===== WARNING =====');
-                    console.error('  Detected Chrome in version 64.x');
-                    console.error('  This version is known to contain bug in remote api that prevents this tool to work');
-                    console.error('  This issue is resolved in version 65');
-                    console.error('  More info: https://github.com/Szpadel/chrome-headless-render-pdf/issues/22');
+                try {
+                    const {Browser} = client;
+                    const version = await Browser.getVersion();
+                    if(version.product.search('/64.') !== -1) {
+                        console.error('     ===== WARNING =====');
+                        console.error('  Detected Chrome in version 64.x');
+                        console.error('  This version is known to contain bug in remote api that prevents this tool to work');
+                        console.error('  This issue is resolved in version 65');
+                        console.error('  More info: https://github.com/Szpadel/chrome-headless-render-pdf/issues/22');
+                    }
+                    console.log(`Connected to ${version.product}, protocol ${version.protocolVersion}`);
+                }catch (e) {
+                    console.warn(`Wasn't able to check chrome version, skipping compatibility check.`);
                 }
                 resolve();
             });
