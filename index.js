@@ -245,6 +245,9 @@ class RenderPDF {
         if (await this.isCommandExists('chromium')) {
             return 'chromium';
         }
+        if (await this.isCommandExists('chromium-browser')) {
+            return 'chromium-browser';
+        }
         // windows
         if (await this.isCommandExists('chrome')) {
             return 'chrome';
