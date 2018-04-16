@@ -17,6 +17,8 @@ const argv = require('minimist')(process.argv.slice(2), {
         'pdf',
         'chrome-binary',
         'chrome-option',
+        'remote-host',
+        'remote-port',
         'window-size',
         'paper-width',
         'paper-height',
@@ -67,6 +69,14 @@ if (Array.isArray(argv['chrome-option'])) {
   chromeOptions = [argv['chrome-option']];
 }
 
+let [remoteHost, remotePort] = [undefined, undefined];
+if (typeof argv['remote-host'] === 'string') {
+    remoteHost = argv['remote-host'];
+}
+if (typeof argv['remote-port'] === 'string') {
+    remotePort = argv['remote-port'];
+}
+
 let paperWidth = undefined;
 if (typeof argv['paper-width'] === 'string') {
     paperWidth = argv['paper-width'];
@@ -107,6 +117,8 @@ if(typeof argv['page-ranges'] === 'string') {
             includeBackground,
             chromeBinary,
             chromeOptions,
+            remoteHost,
+            remotePort,
             windowSize,
             paperWidth,
             paperHeight,
@@ -139,6 +151,8 @@ function printHelp() {
     console.log('    --pdf                    output for generated file can be relative to current directory');
     console.log('    --chrome-binary          set chrome location (use this options when autodetection fail)');
     console.log('    --chrome-option          set chrome option, can be used multiple times, e.g. --chrome-option=--no-sandbox');
+    console.log('    --remote-host            set chrome host (for remote process)');
+    console.log('    --remote-port            set chrome port (for remote process)');
     console.log('    --no-margins             disable default 1cm margins');
     console.log('    --include-background     include elements background');
     console.log('    --landscape              generate pdf in landscape orientation');
