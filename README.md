@@ -10,6 +10,8 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --pdf                    output for generated file can be relative to current directory
     --chrome-binary          set chrome location (use this options when autodetection fail)
     --chrome-option          set chrome option, can be used multiple times, e.g. --chrome-option=--no-sandbox
+    --remote-host            set chrome host (for remote process)
+    --remote-port            set chrome port (for remote process)
     --no-margins             disable default 1cm margins
     --include-background     include elements background
     --landscape              generate pdf in landscape orientation
