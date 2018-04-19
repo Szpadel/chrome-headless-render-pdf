@@ -92,11 +92,12 @@ class RenderPDF {
                 await Page.enable();
                 await LayerTree.enable();
 
-                await Page.navigate({url});
                 await Emulation.setVirtualTimePolicy({policy: 'pauseIfNetworkFetchesPending', budget: 5000});
 
                 const loaded = this.cbToPromise(Page.loadEventFired);
                 const jsDone = this.cbToPromise(Emulation.virtualTimeBudgetExpired);
+
+                await Page.navigate({url});
 
                 await this.profileScope('Wait for load', async () => {
                     await loaded;
