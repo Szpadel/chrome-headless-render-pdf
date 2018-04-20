@@ -1,6 +1,6 @@
 {
   "name": "chrome-headless-render-pdf",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "MIT",
