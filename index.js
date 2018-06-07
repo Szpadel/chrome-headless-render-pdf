@@ -60,7 +60,7 @@ class RenderPDF {
         const renderer = new RenderPDF(options);
         await renderer.connectToChrome();
         try {
-            return renderer.renderPdf(url, renderer.generatePdfOptions());
+            return await renderer.renderPdf(url, renderer.generatePdfOptions());
         } catch (e) {
             renderer.error('error:', e);
         } finally {
