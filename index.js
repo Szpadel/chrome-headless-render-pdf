@@ -293,7 +293,7 @@ class RenderPDF {
         while (true) {
             try {
                 await this.isPortOpen(this.host, this.port);
-                this.log('Connected!');
+                this.log('Chrome port open!');
                 await this.checkChromeVersion();
                 return;
             } catch (e) {
@@ -303,7 +303,7 @@ class RenderPDF {
     }
 
     async checkChromeVersion() {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             CDP({host: this.host, port: this.port}, async (client) => {
                 try {
                     const {Browser} = client;
@@ -320,7 +320,7 @@ class RenderPDF {
                     this.error(`Wasn't able to check chrome version, skipping compatibility check.`);
                 }
                 resolve();
-            });
+            }).on('error', e => { reject(e) });
         });
     }
 
