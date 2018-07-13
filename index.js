@@ -58,6 +58,9 @@ class RenderPDF {
             includeBackground: def('includeBackground', undefined),
             pageRanges: def('pageRanges', undefined),
             scale: def('scale', undefined),
+            displayHeaderFooter: def('displayHeaderFooter', false),
+            headerTemplate: def('headerTemplate', undefined),
+            footerTemplate: def('footerTemplate', undefined),
         };
 
         this.commandLineOptions = {
@@ -174,6 +177,18 @@ class RenderPDF {
 
         if(this.options.pageRanges !== undefined) {
             options.pageRanges = this.options.pageRanges;
+        }
+      
+        if (this.options.displayHeaderFooter !== undefined) {
+            options.displayHeaderFooter = !!this.options.displayHeaderFooter;
+        }
+        
+        if (this.options.headerTemplate !== undefined) {
+            options.headerTemplate = this.options.headerTemplate;
+        }
+        
+        if (this.options.footerTemplate !== undefined) {
+            options.footerTemplate = this.options.footerTemplate;
         }
 
         if(this.options.scale !== undefined) {

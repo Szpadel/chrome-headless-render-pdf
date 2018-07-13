@@ -24,11 +24,14 @@ const argv = require('minimist')(process.argv.slice(2), {
         'paper-height',
         'page-ranges',
         'scale',
+        'header-template',
+        'footer-template',
     ],
     boolean: [
         'no-margins',
         'include-background',
-        'landscape'
+        'landscape',
+        'display-header-footer',
     ]
 });
 
@@ -117,6 +120,21 @@ if(typeof argv['scale'] === 'string') {
     }
 }
 
+let displayHeaderFooter;
+if (argv['display-header-footer']) {
+    displayHeaderFooter = true;
+}
+
+let headerTemplate;
+if(typeof argv['header-template'] === 'string') {
+    headerTemplate = argv['header-template'];
+}
+
+let footerTemplate;
+if(typeof argv['footer-template'] === 'string') {
+    footerTemplate = argv['footer-template'];
+}
+
 (async () => {
     try {
         const jobs = generateJobList(urls, pdfs);
@@ -133,7 +151,10 @@ if(typeof argv['scale'] === 'string') {
             paperWidth,
             paperHeight,
             pageRanges,
-            scale
+            scale,
+            displayHeaderFooter,
+            headerTemplate,
+            footerTemplate,
         });
     } catch (e) {
         console.error(e);
@@ -172,6 +193,9 @@ function printHelp() {
     console.log('    --paper-height           specify page height in inches (defaults to 11 inches)');
     console.log('    --page-ranges            specify pages to render default all pages,  e.g. 1-5, 8, 11-13');
     console.log('    --scale                  specify scale of the webpage rendering (defaults to 1)');
+    console.log('    --display-header-footer  display text headers and footers');
+    console.log('    --header-template        HTML template for the header. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"');
+    console.log('    --footerTemplate         HTML template for the footer. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');

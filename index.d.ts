@@ -13,6 +13,9 @@ interface IRenderPdfOptions {
     paperHeight?: string;
     pageRanges?: string;
     scale?: number;
+    displayHeaderFooter?: boolean;
+    headerTemplate?: string;
+    footerTemplate?: string;
 }
 
 interface IJobPair {
