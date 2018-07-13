@@ -18,7 +18,10 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --paper-height           specify page height in inches (defaults to 11 inches)
     --page-ranges            specify pages to render default all pages,  e.g. 1-5, 8, 11-13
     --scale                  specify scale of the webpage rendering (defaults to 1)
-
+    --display-header-footer  display text headers and footers
+    --header-template        HTML template for the header. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"
+    --footerTemplate         HTML template for the footer. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"
+    
   Example:
     Render single pdf file
       chrome-headless-render-pdf --url http://google.com --pdf test.pdf
@@ -26,6 +29,8 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
       chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf
     Render multiple pdf files
       chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test2.pdf
+    Render pdf with custom footer and no header (styles are mandatory)
+      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf --display-header-footer --header-template ' ' --footer-template '<style type="text/css">.footer{font-size:8px;width:100%;text-align:center;color:#000;padding-left:0.65cm;}</style><div class="footer"><span class="pageNumber"></span> / <span class="totalPages"></span></div>'
 ```
 
 # This tool can be also used programmatically:
