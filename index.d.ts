@@ -12,6 +12,7 @@ interface IRenderPdfOptions {
     paperWidth?: string;
     paperHeight?: string;
     pageRanges?: string;
+    scale?: number;
 }
 
 interface IJobPair {

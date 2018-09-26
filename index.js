@@ -32,6 +32,7 @@ class RenderPDF {
             paperHeight: def('paperHeight', undefined),
             includeBackground: def('includeBackground', undefined),
             pageRanges: def('pageRanges', undefined),
+            scale: def('scale', undefined),
         };
 
         this.commandLineOptions = {
@@ -155,6 +156,10 @@ class RenderPDF {
 
         if(this.options.pageRanges !== undefined) {
             options.pageRanges = this.options.pageRanges;
+        }
+
+        if(this.options.scale !== undefined) {
+            options.scale = this.options.scale;
         }
 
         return options;
