@@ -1,5 +1,3 @@
-This tool require Google Chrome installed in version >59 to work, 
-but latest version is recommended.
 
 # Usage: 
 ```
@@ -19,6 +17,7 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --paper-width            specify page width in inches (defaults to 8.5 inches)
     --paper-height           specify page height in inches (defaults to 11 inches)
     --page-ranges            specify pages to render default all pages,  e.g. 1-5, 8, 11-13
+    --scale                  specify scale of the webpage rendering (defaults to 1)
 
   Example:
     Render single pdf file
@@ -26,7 +25,7 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     Render pdf from local file
       chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf
     Render multiple pdf files
-      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf
+      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test2.pdf
 ```
 
 # This tool can be also used programmatically:

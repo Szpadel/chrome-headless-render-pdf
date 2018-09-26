@@ -28,7 +28,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     boolean: [
         'no-margins',
         'include-background',
-        'landscape '
+        'landscape'
     ]
 });
 
@@ -110,7 +110,11 @@ if(typeof argv['page-ranges'] === 'string') {
 
 let scale;
 if(typeof argv['scale'] === 'string') {
-    scale = argv['scale'];
+    scale = Number(argv['scale']);
+    if(isNaN(scale)) {
+        console.error('--scale must be a number');
+        process.exit(1);
+    }
 }
 
 (async () => {
@@ -175,5 +179,5 @@ function printHelp() {
     console.log('    Render pdf from local file');
     console.log('      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf');
     console.log('    Render multiple pdf files');
-    console.log('      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test.pdf');
+    console.log('      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test2.pdf');
 }

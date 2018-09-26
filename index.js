@@ -159,7 +159,16 @@ class RenderPDF {
         }
 
         if(this.options.scale !== undefined) {
-            options.scale = this.options.scale;
+            let scale = this.options.scale;
+            if(scale < 0.1) {
+                console.warn(`scale cannot be lower than 0.1, using 0.1`);
+                scale = 0.1;
+            }
+            if(scale > 2) {
+                console.warn(`scale cannot be higher than 2, using 2`);
+                scale = 2;
+            }
+            options.scale = scale;
         }
 
         return options;
