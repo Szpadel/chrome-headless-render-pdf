@@ -28,7 +28,7 @@ class RenderPDF {
 
     selectFreePort() {
         return new Promise((resolve) => {
-            let port = 1024;
+            let port = Math.floor(Math.random() * 30000) + 30000;
             const server = net.createServer({allowHalfOpen: true});
             server.on('listening', () => {
                 server.close(() => {
