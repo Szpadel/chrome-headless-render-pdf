@@ -57,6 +57,7 @@ class RenderPDF {
             includeBackground: def('includeBackground', undefined),
             pageRanges: def('pageRanges', undefined),
             scale: def('scale', undefined),
+            preferCSSPageSize: def('preferCSSPageSize', undefined),
         };
 
         this.commandLineOptions = {
@@ -193,6 +194,10 @@ class RenderPDF {
                 scale = 2;
             }
             options.scale = scale;
+        }
+        
+        if(this.options.preferCSSPageSize !== undefined) {
+            options.preferCSSPageSize = !!this.options.preferCSSPageSize;
         }
 
         return options;
