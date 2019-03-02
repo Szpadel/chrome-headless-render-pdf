@@ -36,7 +36,8 @@ class RenderPDF {
                 });
             });
             server.on('error', () => {
-                server.listen(Math.floor(Math.random() * 30000) + 30000);
+                port = Math.floor(Math.random() * 30000) + 30000;
+                server.listen(port);
             });
             server.listen(port);
         })
