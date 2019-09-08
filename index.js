@@ -293,8 +293,8 @@ class RenderPDF {
         if (await this.isCommandExists('google-chrome-beta')) {
             return 'google-chrome-beta';
         }
-        if (await this.isCommandExists('google-stable')) {
-            return 'google-stable';
+        if (await this.isCommandExists('google-chrome-stable')) {
+            return 'google-chrome-stable';
         }
         if (await this.isCommandExists('google-chrome')) {
             return 'google-chrome';
