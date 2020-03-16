@@ -19,7 +19,7 @@
     "babel-polyfill": "^6.23.0",
     "chrome-remote-interface": "^0.25.5",
     "command-exists": "^1.2.2",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "update-notifier": "^2.1.0"
   },
   "devDependencies": {
