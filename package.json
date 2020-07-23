@@ -15,12 +15,12 @@
     "start": "yarn run build && node dist/cli/chrome-headless-render-pdf.js"
   },
   "dependencies": {
-    "@types/node": "^8.0.15",
+    "@types/node": "^14.0.24",
     "babel-polyfill": "^6.23.0",
-    "chrome-remote-interface": "^0.25.5",
+    "chrome-remote-interface": "^0.28.2",
     "command-exists": "^1.2.2",
     "minimist": "^1.2.3",
-    "update-notifier": "^2.1.0"
+    "update-notifier": "^4.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
