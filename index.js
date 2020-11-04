@@ -303,6 +303,12 @@ class RenderPDF {
         if (await this.isCommandExists('chrome')) {
             return 'chrome';
         }
+        if (await this.isCommandExists('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe')) {
+            return 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
+        }
+        if (await this.isCommandExists('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')) {
+            return 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+        }
         // macos
         if (await this.isCommandExists('/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome')) {
             return '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome';
