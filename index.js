@@ -3,6 +3,7 @@ const fs = require('fs');
 const cp = require('child_process');
 const net = require('net');
 const commandExists = require('command-exists');
+const fileUrl = require('file-url');
 
 class StreamReader {
     constructor(stream) {
@@ -110,6 +111,10 @@ class RenderPDF {
     }
 
     async renderPdf(url, options) {
+        if (!url.match(/^(https?|file):\/\//) && fs.existsSync(url)) {
+          url = fileUrl(url);
+        }
+
         const client = await CDP({host: this.host, port: this.port});
         this.log(`Opening ${url}`);
         const {Page, Emulation, LayerTree} = client;
