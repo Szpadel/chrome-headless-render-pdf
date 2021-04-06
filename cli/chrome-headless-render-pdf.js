@@ -204,4 +204,7 @@ function printHelp() {
     console.log('      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf');
     console.log('    Render multiple pdf files');
     console.log('      chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test2.pdf');
+    console.log('    Render pdf with custom footer and no header (styles are mandatory)');
+    console.log('      chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf --display-header-footer --header-template \' \' \\');
+    console.log('        --footer-template \'<style type="text/css">.footer{font-size:8px;width:100%;text-align:center;color:#000;padding-left:0.65cm;}</style><div class="footer"><span class="pageNumber"></span> / <span class="totalPages"></span></div>\'');
 }
