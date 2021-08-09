@@ -42,8 +42,8 @@ RenderPDF.generateSinglePdf('http://google.com', 'outputPdf.pdf');
 ```
 const RenderPDF = require('chrome-headless-render-pdf');
 RenderPDF.generateMultiplePdf([
-    {'http://google.com', 'outputPdf.pdf'},
-    {'http://example.com', 'outputPdf2.pdf'}
+    {url: 'http://google.com', pdf: 'outputPdf.pdf'},
+    {utl: 'http://example.com', pdf: 'outputPdf2.pdf'}
 ]);
 ```
 
