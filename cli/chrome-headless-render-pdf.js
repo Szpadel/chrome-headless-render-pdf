@@ -218,8 +218,8 @@ function printHelp() {
     console.log('    --display-header-footer  display text headers and footers');
     console.log('    --header-template        HTML template for the header. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"');
     console.log('    --footerTemplate         HTML template for the footer. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"');
-    console.log('    --js-time-budget         Virtual time budget in ms to wait for js execution (default 5000)"');
-    console.log('    --animation-time-budget  Time budget in ms to wait for in progress animations to finish (default 5000)"');
+    console.log('    --js-time-budget         Virtual time budget in ms to wait for js execution (default 5000)');
+    console.log('    --animation-time-budget  Time budget in ms to wait for in progress animations to finish (default 5000)');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');

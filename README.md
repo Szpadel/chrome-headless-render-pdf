@@ -1,5 +1,5 @@
 
-# Usage: 
+# Usage:
 ```
 chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --pdf=OUTPUT-FILE2] ...
   Options:
@@ -21,7 +21,9 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
     --display-header-footer  display text headers and footers
     --header-template        HTML template for the header. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"
     --footerTemplate         HTML template for the footer. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"
-    
+    --js-time-budget         Virtual time budget in ms to wait for js execution (default 5000)
+    --animation-time-budget  Time budget in ms to wait for in progress animations to finish (default 5000)
+
   Example:
     Render single pdf file
       chrome-headless-render-pdf --url http://google.com --pdf test.pdf
@@ -62,6 +64,6 @@ RenderPDF.generateSinglePdf('http://google.com', 'outputPdf.pdf');
 ```
 
 # Motivation
-google-chrome currently have option to render pdf files when used with headless option. 
+google-chrome currently have option to render pdf files when used with headless option.
 But this option contains hardcoded adding header and footer to page rendering it unusable for pdf generation.
 This module allows to generate it without those elements.
