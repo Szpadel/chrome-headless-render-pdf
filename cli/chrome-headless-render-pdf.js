@@ -26,6 +26,8 @@ const argv = require('minimist')(process.argv.slice(2), {
         'scale',
         'header-template',
         'footer-template',
+        'js-time-budget',
+        'animation-time-budget',
     ],
     boolean: [
         'no-margins',
@@ -135,6 +137,24 @@ if(typeof argv['footer-template'] === 'string') {
     footerTemplate = argv['footer-template'];
 }
 
+let jsTimeBudget;
+if(typeof argv['js-time-budget'] === 'string') {
+    jsTimeBudget = Number(argv['js-time-budget']);
+    if(isNaN(jsTimeBudget)) {
+        console.error('--js-time-budget must be a number');
+        process.exit(1);
+    }
+}
+
+let animationTimeBudget;
+if(typeof argv['animation-time-budget'] === 'string') {
+    animationTimeBudget = Number(argv['animation-time-budget']);
+    if(isNaN(animationTimeBudget)) {
+        console.error('--animation-time-budget must be a number');
+        process.exit(1);
+    }
+}
+
 (async () => {
     try {
         const jobs = generateJobList(urls, pdfs);
@@ -155,6 +175,8 @@ if(typeof argv['footer-template'] === 'string') {
             displayHeaderFooter,
             headerTemplate,
             footerTemplate,
+            jsTimeBudget,
+            animationTimeBudget,
         });
     } catch (e) {
         console.error(e);
@@ -196,6 +218,8 @@ function printHelp() {
     console.log('    --display-header-footer  display text headers and footers');
     console.log('    --header-template        HTML template for the header. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"');
     console.log('    --footerTemplate         HTML template for the footer. Inject variables using the classes "date", "title", "url", "pageNumber" or "totalPages"');
+    console.log('    --js-time-budget         Virtual time budget in ms to wait for js execution (default 5000)"');
+    console.log('    --animation-time-budget  Time budget in ms to wait for in progress animations to finish (default 5000)"');
     console.log('');
     console.log('  Example:');
     console.log('    Render single pdf file');

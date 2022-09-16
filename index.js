@@ -61,6 +61,8 @@ class RenderPDF {
             displayHeaderFooter: def('displayHeaderFooter', false),
             headerTemplate: def('headerTemplate', undefined),
             footerTemplate: def('footerTemplate', undefined),
+            jsTimeBudget: def('jsTimeBudget', 5000),
+            animationTimeBudget: def('animationTimeBudget', 5000),
         };
 
         this.commandLineOptions = {
@@ -123,7 +125,7 @@ class RenderPDF {
         const jsDone = this.cbToPromise(Emulation.virtualTimeBudgetExpired);
 
         await Page.navigate({url});
-        await Emulation.setVirtualTimePolicy({policy: 'pauseIfNetworkFetchesPending', budget: 5000});
+        await Emulation.setVirtualTimePolicy({policy: 'pauseIfNetworkFetchesPending', budget: this.options.jsTimeBudget});
 
         await this.profileScope('Wait for load', async () => {
             await loaded;
@@ -135,7 +137,7 @@ class RenderPDF {
 
         await this.profileScope('Wait for animations', async () => {
             await new Promise((resolve) => {
-                setTimeout(resolve, 5000); // max waiting time
+                setTimeout(resolve, this.options.animationTimeBudget); // max waiting time
                 let timeout = setTimeout(resolve, 100);
                 LayerTree.layerPainted(() => {
                     clearTimeout(timeout);
@@ -178,15 +180,15 @@ class RenderPDF {
         if(this.options.pageRanges !== undefined) {
             options.pageRanges = this.options.pageRanges;
         }
-      
+
         if (this.options.displayHeaderFooter !== undefined) {
             options.displayHeaderFooter = !!this.options.displayHeaderFooter;
         }
-        
+
         if (this.options.headerTemplate !== undefined) {
             options.headerTemplate = this.options.headerTemplate;
         }
-        
+
         if (this.options.footerTemplate !== undefined) {
             options.footerTemplate = this.options.footerTemplate;
         }
