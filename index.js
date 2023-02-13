@@ -21,8 +21,6 @@ class RenderPDF {
         if (this.options.remoteHost) {
           this.host = this.options.remoteHost;
           this.port = this.options.remotePort;
-        } else {
-          this.host = 'localhost';
         }
     }
 
@@ -348,11 +346,38 @@ class RenderPDF {
         }
     }
 
+    async detectOpenPort() {
+        if (this.host) {
+            // Use existing configuration
+            return await this.isPortOpen(this.host, this.port);
+        }else {
+            const v4Host = "127.0.0.1";
+            const v6Host = "::1";
+            const v6 = this.isPortOpen(v6Host, this.port);
+            const v4 = this.isPortOpen(v4Host, this.port);
+            try {
+                const ok = await v6;
+                this.log('Detected ipv6 connection');
+                this.host = v6Host;
+                return ok;
+            }catch(e) {
+                try {
+                    const ok = await v4;
+                    this.log('Detected ipv4 connection');
+                    this.host = v4Host;
+                    return ok;
+                }catch(e) {
+                    throw e
+                }
+            }
+        }
+    }
+
     async waitForDebugPort() {
         this.log('Waiting for chrome to became available');
         while (true) {
             try {
-                await this.isPortOpen(this.host, this.port);
+                await this.detectOpenPort();
                 this.log('Chrome port open!');
                 await this.checkChromeVersion();
                 return;
