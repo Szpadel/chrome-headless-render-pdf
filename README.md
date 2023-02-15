@@ -4,7 +4,7 @@
 chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --pdf=OUTPUT-FILE2] ...
   Options:
     --help                   this screen
-    --url                    url to load, for local files use: file:///path/to/file
+    --url                    url to load, for local files use: file:///path/to/file or /path/to/file
     --pdf                    output for generated file can be relative to current directory
     --chrome-binary          set chrome location (use this options when autodetection fail)
     --chrome-option          set chrome option, can be used multiple times, e.g. --chrome-option=--no-sandbox
@@ -29,6 +29,8 @@ chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --p
       chrome-headless-render-pdf --url http://google.com --pdf test.pdf
     Render pdf from local file
       chrome-headless-render-pdf --url file:///tmp/example.html --pdf test.pdf
+    Render pdf from local file in current directory
+      chrome-headless-render-pdf --url example.html --pdf test.pdf
     Render multiple pdf files
       chrome-headless-render-pdf --url http://google.com --pdf test.pdf --url file:///tmp/example.html --pdf test2.pdf
     Render pdf with custom footer and no header (styles are mandatory)
