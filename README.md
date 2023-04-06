@@ -1,4 +1,4 @@
-
+[![npm](https://img.shields.io/npm/v/chrome-headless-render-pdf?style=for-the-badge)![npm type definitions](https://img.shields.io/npm/types/chrome-headless-render-pdf?style=for-the-badge)](https://www.npmjs.com/package/chrome-headless-render-pdf)
 # Usage:
 ```
 chrome-headless-render-pdf [OPTIONS] --url=URL --pdf=OUTPUT-FILE [--url=URL2 --pdf=OUTPUT-FILE2] ...
