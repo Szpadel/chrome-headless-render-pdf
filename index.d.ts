@@ -11,6 +11,7 @@ interface IRenderPdfOptions {
     windowSize?: boolean;
     paperWidth?: string;
     paperHeight?: string;
+    preferCSSPageSize?: boolean;
     pageRanges?: string;
     scale?: number;
     displayHeaderFooter?: boolean;

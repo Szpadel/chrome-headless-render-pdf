@@ -53,6 +53,7 @@ class RenderPDF {
             landscape: def('landscape', undefined),
             paperWidth: def('paperWidth', undefined),
             paperHeight: def('paperHeight', undefined),
+            preferCSSPageSize: def('preferCSSPageSize', undefined),
             includeBackground: def('includeBackground', undefined),
             pageRanges: def('pageRanges', undefined),
             scale: def('scale', undefined),
@@ -173,6 +174,10 @@ class RenderPDF {
 
         if(this.options.paperHeight !== undefined) {
             options.paperHeight = parseFloat(this.options.paperHeight);
+        }
+
+        if (this.options.preferCSSPageSize !== undefined) {
+            options.preferCSSPageSize = !!this.options.preferCSSPageSize;
         }
 
         if(this.options.pageRanges !== undefined) {
