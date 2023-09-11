@@ -73,6 +73,19 @@ class RenderPDF {
         }
     }
 
+    static async generateSinglePdfFromHtml(html, filename, options) {
+        const renderer = new RenderPDF(options);
+        await renderer.connectToChrome();
+        try {
+            const buff = await renderer.renderPdfFromHtml(html, renderer.generatePdfOptions());
+            fs.writeFileSync(filename, buff);
+            renderer.log(`Saved ${filename}`);
+        } catch (e) {
+            renderer.error('error:', e);
+        }
+        renderer.killChrome();
+    }
+
     static async generateSinglePdf(url, filename, options) {
         const renderer = new RenderPDF(options);
         await renderer.connectToChrome();
@@ -111,6 +124,46 @@ class RenderPDF {
             }
         }
         renderer.killChrome();
+    }
+
+    async renderPdfFromHtml(html, options) {
+        const client = await CDP({host: this.host, port: this.port});
+        this.log(`From html`);
+        const {Page, Emulation, LayerTree} = client;
+        await Page.enable();
+        await LayerTree.enable();
+
+        const loaded = this.cbToPromise(Page.loadEventFired);
+        const jsDone = this.cbToPromise(Emulation.virtualTimeBudgetExpired);
+
+        const {frameId} = await Page.navigate({url: 'about:blank'});
+        await Page.setDocumentContent({frameId, html});
+
+        await Emulation.setVirtualTimePolicy({policy: 'pauseIfNetworkFetchesPending', budget: 5000});
+
+        await this.profileScope('Wait for load', async () => {
+            await loaded;
+        });
+
+        await this.profileScope('Wait for js execution', async () => {
+            await jsDone;
+        });
+
+        await this.profileScope('Wait for animations', async () => {
+            await new Promise((resolve) => {
+                setTimeout(resolve, 5000); // max waiting time
+                let timeout = setTimeout(resolve, 100);
+                LayerTree.layerPainted(() => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(resolve, 100);
+                });
+            });
+        });
+
+        const pdf = await Page.printToPDF(options);
+        const buff = Buffer.from(pdf.data, 'base64');
+        client.close();
+        return buff;
     }
 
     async renderPdf(url, options) {
